@@ -1,0 +1,39 @@
+name: Build
+on:
+  commit:
+    branches:
+      - '*'
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up CMake
+      uses: eskatos/setup-cmake@v2
+
+    - name: Configure CMake
+      run: cmake -B build
+
+    - name: build
+      run: |
+        mkdir build &&
+        cd build &&
+        cmake .. &&
+        make **
+    - name: Run
+      run: test_graph.exe
+      id: execute_exectuable
+      continue-on-error: true
+
+    - name: Check exit code
+      run: exit ${{ steps.execute_exectuable.outcome }}
+      if: steps.execute_exectuable.outcome != 'success'
