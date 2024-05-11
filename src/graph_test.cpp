@@ -62,7 +62,7 @@ TEST_CASE("insertEdge and removeEdge")
     }
 }
 
-TEST_CASE("insertVertex and removeVertex")
+TEST_CASE("insertVertex")
 {
     std::vector<int> target = {0, 1, 3, 0, 0, 1, 0, 1, 7, 0, 3, 1, 0, 4, 0, 0, 7, 4, 0, 0, 0, 0, 0, 0, 0};
 
@@ -76,15 +76,68 @@ TEST_CASE("insertVertex and removeVertex")
         REQUIRE(edge.weight == target[iter]);
         iter++;
     }
+}
 
-    std::vector<int> target2 = {0, 1, 0, 1, 0, 7, 0, 7, 4, 0};
+TEST_CASE("removeVertex")
+{
+    auto m = createAdjacencyMatrixGraph();
+    std::vector<int> target2 = {0, 1, 0, 1, 0, 7, 0, 7, 0};
+    m->removeVertex(Vertex(0, 4));
     m->removeVertex(Vertex(0, 2));
 
-    auto edges2 = m->edges();
+    auto edges = m->edges();
 
-    int iter2 = 0;
-    for (const Edge& edge: *edges2) {
-        REQUIRE(edge.weight == target2[iter2]);
+    int iter = 0;
+    for (const Edge& edge2: *edges) {
+        REQUIRE(edge2.weight == target2[iter]);
         iter++;
     }
+}
+
+TEST_CASE("opposite, areAdjacent, opposite ")
+{
+    auto m = createAdjacencyMatrixGraph();
+    auto edge = Edge(
+            new Vertex(0, 1),
+            new Vertex(0, 3),
+            0
+    );
+
+    auto vertex = m->endVertices(edge);
+
+    REQUIRE(vertex[0]->id == 1);
+    REQUIRE(vertex[1]->id == 3);
+
+
+    auto oposite1 = m->opposite(Vertex(0, 1), edge);
+    auto oposite2 = m->opposite(Vertex(0, 3), edge);
+
+    REQUIRE(oposite1->id == 3);
+    REQUIRE(oposite2->id == 1);
+
+    std::vector<Edge> target = {
+            Edge(
+                    new Vertex(0, 0),
+                    new Vertex(0, 1),
+                    1
+            ),
+            Edge(
+                    new Vertex(0, 0),
+                    new Vertex(0, 2),
+                    3
+            )
+    };
+
+    auto incidentEdges = m->incidentEdges(Vertex(0, 0));
+    int iter = 0;
+    for (auto& element: incidentEdges) {
+        REQUIRE(element.weight == target[iter].weight);
+        iter++;
+    }
+
+    auto areAdjacent1 = m->areAdjacent(Vertex(0, 0), Vertex(0, 0));
+    auto areAdjacent2 = m->areAdjacent(Vertex(0, 0), Vertex(0, 2));
+
+    REQUIRE(areAdjacent2);
+    REQUIRE(!areAdjacent1);
 }

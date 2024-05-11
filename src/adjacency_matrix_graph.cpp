@@ -130,16 +130,23 @@ Vertex* AdjacencyMatrixGraph::opposite(Vertex v, Edge e) {
 void AdjacencyMatrixGraph::removeVertex(Vertex v) {
     this->adjacencyMatrix->erase(v);
 
-    for(auto& row: *this->adjacencyMatrix)
-    {
+    for (auto& row: *this->adjacencyMatrix) {
         row.second.erase(v);
     }
 }
 
 std::vector<Edge> AdjacencyMatrixGraph::incidentEdges(Vertex v) {
-    return std::vector<Edge>(1, Edge(nullptr, nullptr, 0));
+    std::vector<Edge> edges;
+
+    for (auto& element: this->adjacencyMatrix->at(v)) {
+        if (element.second.weight != 0) {
+            edges.push_back(element.second);
+        }
+    }
+
+    return edges;
 }
 
 bool AdjacencyMatrixGraph::areAdjacent(Vertex v, Vertex w) {
-    return false;
+    return this->adjacencyMatrix->at(v).at(w).weight != 0;
 }
