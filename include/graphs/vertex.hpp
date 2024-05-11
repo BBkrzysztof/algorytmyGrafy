@@ -11,6 +11,11 @@ public:
         this->o = o;
     }
 
+    Vertex(const Vertex& other) {
+        this->id = other.id;
+        this->o = other.o;
+    }
+
     static Vertex* build(int o, bool reset = false) {
         static int id = 0;
         reset ? id = 0 : id = id;

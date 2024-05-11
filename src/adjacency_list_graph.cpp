@@ -6,7 +6,7 @@ AdjacencyListGraph::AdjacencyListGraph() {
 }
 
 void AdjacencyListGraph::insertEdge(Vertex v, Vertex w, int o) {
-    this->adjacencyList->at(v).at(w) = Edge(
+    this->adjacencyList->at(v)[w] = Edge(
             &v,
             &w,
             o
@@ -14,7 +14,7 @@ void AdjacencyListGraph::insertEdge(Vertex v, Vertex w, int o) {
 }
 
 void AdjacencyListGraph::insertVertex(Vertex* v) {
-    this->adjacencyList->at(*v) = std::map<Vertex, Edge>();
+    (*this->adjacencyList)[*v] = std::map<Vertex, Edge>();
 }
 
 void AdjacencyListGraph::replaceEdge(const Edge& e, int x) {
@@ -61,8 +61,6 @@ std::unique_ptr<Graph> AdjacencyListGraph::createGraph(std::istream& is) {
 }
 
 void AdjacencyListGraph::replaceElement(Vertex v, Vertex x) {
-
-
     auto copy = this->adjacencyList->at(v);
     this->adjacencyList->erase(v);
     (*this->adjacencyList)[x] = copy;
@@ -81,7 +79,8 @@ std::vector<Vertex*>* AdjacencyListGraph::vertices() {
     auto* vertices = new std::vector<Vertex*>();
 
     for (std::pair<Vertex, std::map<Vertex, Edge>> element: *this->adjacencyList) {
-        vertices->push_back(&element.first);
+
+        vertices->push_back(new Vertex(element.first));
     }
 
     return vertices;

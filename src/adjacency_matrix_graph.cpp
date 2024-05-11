@@ -155,6 +155,19 @@ void AdjacencyMatrixGraph::removeVertex(Vertex v) {
     for (auto& row: *this->adjacencyMatrix) {
         row.second.erase(v);
     }
+
+    auto result = std::find_if(
+            (*this->vertexes).begin(),
+            (*this->vertexes).end(),
+            [v](Vertex* element) {
+                return element->id == v.id;
+            }
+    );
+
+    if (result != this->vertexes->end()) {
+        this->vertexes->erase(result);
+    }
+
 }
 
 std::vector<Edge> AdjacencyMatrixGraph::incidentEdges(Vertex v) {
