@@ -16,6 +16,11 @@ add_executable(test_mst
 target_link_libraries(test_mst graph_algorithms_lib)
 target_compile_definitions(test_mst PUBLIC DATA_DIR_PATH="${CMAKE_CURRENT_SOURCE_DIR}/mst_data/")
 
+add_executable(test_graph
+        src/graph_test.cpp src/adjacency_list_graph.cpp adjacency_matrix_graph.cpp)
+target_link_libraries(test_graph graph_algorithms_lib)
+target_compile_definitions(test_graph PUBLIC DATA_DIR_PATH="${CMAKE_CURRENT_SOURCE_DIR}/mst_data/")
+
 add_executable(efficiency_tests
         src/main.cpp)
 target_link_libraries(efficiency_tests graph_algorithms_lib)
