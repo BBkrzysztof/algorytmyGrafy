@@ -1,13 +1,14 @@
 name: Build
-
 on:
+  commit:
+    branches:
+      - '*'
   push:
     branches:
       - '*'
   pull_request:
     branches:
-      - main
-
+      - '*'
 jobs:
   build:
     runs-on: ubuntu-latest
