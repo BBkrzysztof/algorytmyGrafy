@@ -15,9 +15,7 @@ int main() {
 
     std::ifstream inputStream2{"graphV4d0.5.txt"};
     std::unique_ptr<Graph> m2 = AdjacencyMatrixGraph::createGraph(inputStream2);
-
-    m2->dump();
-    m2->removeVertex(Vertex(0, 2));
+    m2->replaceElement(Vertex(0, 0), Vertex(321, 0));
 
     m2->dump();
 

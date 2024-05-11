@@ -94,7 +94,18 @@ TEST_CASE("removeVertex")
     }
 }
 
-TEST_CASE("opposite, areAdjacent, opposite ")
+TEST_CASE("replace vertex")
+{
+    auto m = createAdjacencyMatrixGraph();
+    auto vertexes = m->vertices();
+    REQUIRE(vertexes->at(0)->o == 0);
+    m->replaceElement(Vertex(0, 0), Vertex(321, 0));
+
+    auto vertexes2 = m->vertices();
+    REQUIRE(vertexes2->at(0)->o == 321);
+}
+
+TEST_CASE("opposite, areAdjacent, incidentEdges")
 {
     auto m = createAdjacencyMatrixGraph();
     auto edge = Edge(

@@ -37,6 +37,8 @@ public:
 
     void replaceEdge(const Edge& e, int x) final;
 
+    void replaceElement(Vertex v, Vertex x) final;
+
     void dump() final;
 
 private:

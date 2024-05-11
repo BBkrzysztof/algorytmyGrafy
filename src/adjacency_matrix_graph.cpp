@@ -83,6 +83,30 @@ std::unique_ptr<Graph> AdjacencyMatrixGraph::createGraph(std::istream& is) {
     return graph;
 }
 
+void AdjacencyMatrixGraph::replaceElement(Vertex v, Vertex x) {
+
+    for (auto& row: *this->adjacencyMatrix) {
+        auto copy = row.second.at(v);
+        row.second.erase(v);
+        row.second[x] = copy;
+    }
+
+    auto copy = this->adjacencyMatrix->at(v);
+    this->adjacencyMatrix->erase(v);
+    (*this->adjacencyMatrix)[x] = copy;
+
+    auto oldVertex = std::find_if(
+            (*this->vertexes).begin(),
+            (*this->vertexes).end(),
+            [v](Vertex* element) {
+                return element->id == v.id;
+            });
+
+    if (oldVertex != this->vertexes->end()) {
+        (*oldVertex)->o = x.o;
+    }
+}
+
 AdjacencyMatrixGraph::~AdjacencyMatrixGraph() {
     std::destroy(this->adjacencyMatrix->begin(), this->adjacencyMatrix->end());
     std::destroy(this->vertexes->begin(), this->vertexes->end());
