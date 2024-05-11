@@ -44,7 +44,6 @@ public:
 private:
     std::map<Vertex, std::map<Vertex, Edge>>* adjacencyMatrix;
     std::vector<Vertex*>* vertexes;
-    int vertexCount = 0;
 };
 
 #endif /* ADJACENCY_MATRIX_GRAPH_HPP_ */

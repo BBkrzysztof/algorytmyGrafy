@@ -11,8 +11,6 @@ void AdjacencyMatrixGraph::insertEdge(Vertex v, Vertex w, int o) {
             &w,
             o
     );
-
-    this->vertexCount++;
 }
 
 void AdjacencyMatrixGraph::insertVertex(Vertex* v) {
