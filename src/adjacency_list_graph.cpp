@@ -7,8 +7,8 @@ AdjacencyListGraph::AdjacencyListGraph() {
 
 void AdjacencyListGraph::insertEdge(Vertex v, Vertex w, int o) {
     this->adjacencyList->at(v)[w] = Edge(
-            &v,
-            &w,
+            new Vertex(v),
+            new Vertex(w),
             o
     );
 }
