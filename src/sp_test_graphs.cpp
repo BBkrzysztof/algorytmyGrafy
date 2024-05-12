@@ -5,12 +5,13 @@
 #include "../include/catch2/catch.hpp"
 
 #include "adjacency_matrix_graph.cpp"
+#include "adjacency_list_graph.cpp"
 #include "shortest_path_algorithms.cpp"
 #include <filesystem>
 
 using namespace std::string_literals;
 
-const std::filesystem::path dataDirectoryPath{"/sp_data"};
+const std::filesystem::path dataDirectoryPath{"sp_data"};
 
 void readShortestPathResult(std::istream& is, ShortestPathResult& result)
 {
@@ -72,12 +73,16 @@ void checkShortestPathResult(const ShortestPathResult& result, const ShortestPat
 
 TEST_CASE("Adjacency Matrix Graph -- Dijkstra")
 {
-    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5.txt",
-                                                         dataDirectoryPath / "sp_result" / "spV10D0.5.txt"),
+    auto [inputFile, refFile] = GENERATE(
+//                                            std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5.txt",
+//                                                         dataDirectoryPath / "sp_result" / "spV10D0.5.txt")
                                          std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25.txt",
                                                          dataDirectoryPath / "sp_result" / "spV30D0.25.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV20D0.25.txt",
+                                                         dataDirectoryPath / "sp_result" / "spVV20D0.25.txt"),
                                          std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
-                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
+                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt")
+                                                         );
 
     std::ifstream inputStream{inputFile}, refStream{refFile};
     auto graph = AdjacencyMatrixGraph::createGraph(inputStream);
