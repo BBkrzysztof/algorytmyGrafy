@@ -3,26 +3,24 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <queue>
 
 //#include "adjacency_list_graph.cpp"
 #include "adjacency_matrix_graph.cpp"
 #include "adjacency_list_graph.cpp"
-//#include "shortest_path_algorithms.cpp"
+#include "shortest_path_algorithms.cpp"
 
 #include "../include/graphs/vertex.hpp"
 
 int main() {
 
 
-    std::ifstream inputStream2{"graphV4d0.5.txt"};
-    std::unique_ptr<Graph> m2 = AdjacencyListGraph::createGraph(inputStream2);
-
-//    m2->replaceElement(Vertex(0, 0), Vertex(321, 0));
-
-    m2->removeVertex(Vertex(0, 2));
-    auto vertexes2 = m2->vertices();
-
-    m2->dump();
-
+    std::ifstream inputStream2{"sp_data/graph/graphV10D0.5Negative.txt"};
+    std::unique_ptr<Graph> m2 = AdjacencyMatrixGraph::createGraph(inputStream2);
+//    m2->dump();
+    ShortestPathResult result;
+    bellmanFord(*m2, 7, result);
+//    auto d =  m2->incidentEdges(Vertex(0, 0));
+//    m2->dump();
 
 }

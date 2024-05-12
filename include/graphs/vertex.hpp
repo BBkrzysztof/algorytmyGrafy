@@ -6,6 +6,8 @@ public:
     int id;
     int o;
 
+    Vertex() = default;
+
     explicit Vertex(int o, int id = -1) {
         this->id = id;
         this->o = o;
@@ -28,7 +30,28 @@ public:
         return this->id == other.id;
     }
 
+    bool operator!=(const int& intId) const {
+        return this->id != intId;
+    }
+
+    bool operator!=(const Vertex& other) const {
+        return this->id != other.id;
+    }
+
     bool operator<(const Vertex& other) const {
         return this->id < other.id;
+    }
+
+    bool operator==(const Vertex* other) const {
+        return this->id == other->id;
+    }
+
+
+    bool operator<(const Vertex* other) const {
+        return this->id < other->id;
+    }
+
+    bool operator>(const Vertex& other) const {
+        return this->id > other.id;
     }
 };
