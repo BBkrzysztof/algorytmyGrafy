@@ -73,13 +73,10 @@ void checkShortestPathResult(const ShortestPathResult& result, const ShortestPat
 
 TEST_CASE("Adjacency Matrix Graph -- Dijkstra")
 {
-    auto [inputFile, refFile] = GENERATE(
-//                                            std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV10D0.5.txt")
+    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV10D0.5.txt"),
                                          std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25.txt",
                                                          dataDirectoryPath / "sp_result" / "spV30D0.25.txt"),
-                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV20D0.25.txt",
-                                                         dataDirectoryPath / "sp_result" / "spVV20D0.25.txt"),
                                          std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
                                                          dataDirectoryPath / "sp_result" / "spV200D0.75.txt")
                                                          );
@@ -98,71 +95,71 @@ TEST_CASE("Adjacency Matrix Graph -- Dijkstra")
     checkShortestPathResult(result, refResult);
 }
 
-//TEST_CASE("Adjacency List Graph -- Dijktra")
-//{
-//    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV10D0.5.txt"),
-//                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV30D0.25.txt"),
-//                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
-//
-//    std::ifstream inputStream{inputFile}, refStream{refFile};
-//    auto graph = AdjacencyListGraph::createGraph(inputStream);
-//
-//    ShortestPathResult result, refResult;
-//    readShortestPathResult(refStream, refResult);
-//
-//    int sourceIndex;
-//    inputStream >> sourceIndex;
-//
-//    dijkstra(*graph, sourceIndex, result);
-//
-//    checkShortestPathResult(result, refResult);
-//}
-//
-//TEST_CASE("Adjacency Matrix Graph -- Bellman-Ford")
-//{
-//    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5Negative.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV10D0.5Negative.txt"),
-//                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25Negative.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV30D0.25Negative.txt"),
-//                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
-//
-//    std::ifstream inputStream{inputFile}, refStream{refFile};
-//    auto graph = AdjacencyMatrixGraph::createGraph(inputStream);
-//
-//    ShortestPathResult result, refResult;
-//    readShortestPathResult(refStream, refResult);
-//
-//    int sourceIndex;
-//    inputStream >> sourceIndex;
-//
-//    REQUIRE(bellmanFord(*graph, sourceIndex, result));
-//
-//    checkShortestPathResult(result, refResult);
-//}
-//
-//TEST_CASE("Adjacency List Graph -- Bellman-Ford")
-//{
-//    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5Negative.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV10D0.5Negative.txt"),
-//                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25Negative.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV30D0.25Negative.txt"),
-//                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
-//                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
-//
-//    std::ifstream inputStream{inputFile}, refStream{refFile};
-//    auto graph = AdjacencyListGraph::createGraph(inputStream);
-//
-//    ShortestPathResult result, refResult;
-//    readShortestPathResult(refStream, refResult);
-//
-//    int sourceIndex;
-//    inputStream >> sourceIndex;
-//
-//    REQUIRE(bellmanFord(*graph, sourceIndex, result));
-//
-//    checkShortestPathResult(result, refResult);
-//}
+TEST_CASE("Adjacency List Graph -- Dijktra")
+{
+    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV10D0.5.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV30D0.25.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
+
+    std::ifstream inputStream{inputFile}, refStream{refFile};
+    auto graph = AdjacencyListGraph::createGraph(inputStream);
+
+    ShortestPathResult result, refResult;
+    readShortestPathResult(refStream, refResult);
+
+    int sourceIndex;
+    inputStream >> sourceIndex;
+
+    dijkstra(*graph, sourceIndex, result);
+
+    checkShortestPathResult(result, refResult);
+}
+
+TEST_CASE("Adjacency Matrix Graph -- Bellman-Ford")
+{
+    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5Negative.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV10D0.5Negative.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25Negative.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV30D0.25Negative.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
+
+    std::ifstream inputStream{inputFile}, refStream{refFile};
+    auto graph = AdjacencyMatrixGraph::createGraph(inputStream);
+
+    ShortestPathResult result, refResult;
+    readShortestPathResult(refStream, refResult);
+
+    int sourceIndex;
+    inputStream >> sourceIndex;
+
+    REQUIRE(bellmanFord(*graph, sourceIndex, result));
+
+    checkShortestPathResult(result, refResult);
+}
+
+TEST_CASE("Adjacency List Graph -- Bellman-Ford")
+{
+    auto [inputFile, refFile] = GENERATE(std::make_tuple(dataDirectoryPath / "graph" / "graphV10D0.5Negative.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV10D0.5Negative.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV30D0.25Negative.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV30D0.25Negative.txt"),
+                                         std::make_tuple(dataDirectoryPath / "graph" / "graphV200D0.75.txt",
+                                                         dataDirectoryPath / "sp_result" / "spV200D0.75.txt"));
+
+    std::ifstream inputStream{inputFile}, refStream{refFile};
+    auto graph = AdjacencyListGraph::createGraph(inputStream);
+
+    ShortestPathResult result, refResult;
+    readShortestPathResult(refStream, refResult);
+
+    int sourceIndex;
+    inputStream >> sourceIndex;
+
+    REQUIRE(bellmanFord(*graph, sourceIndex, result));
+
+    checkShortestPathResult(result, refResult);
+}
