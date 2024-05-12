@@ -28,7 +28,24 @@ public:
         return this->id == other.id;
     }
 
+    bool operator!=(const Vertex& other) const {
+        return this->id != other.id;
+    }
+
     bool operator<(const Vertex& other) const {
         return this->id < other.id;
+    }
+
+    bool operator==(const Vertex* other) const {
+        return this->id == other->id;
+    }
+
+
+    bool operator<(const Vertex* other) const {
+        return this->id < other->id;
+    }
+
+    bool operator>(const Vertex& other) const {
+        return this->id > other.id;
     }
 };
