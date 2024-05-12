@@ -14,6 +14,12 @@ public:
         this->w = w;
     }
 
+    Edge(const Edge& other) {
+        this->weight = other.weight;
+        this->w = other.w;
+        this->v = other.v;
+    }
+
     Edge(const Edge& other, int weight) {
         this->weight = weight;
         this->w = other.w;

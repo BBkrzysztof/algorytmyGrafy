@@ -7,8 +7,8 @@ AdjacencyMatrixGraph::AdjacencyMatrixGraph() {
 
 void AdjacencyMatrixGraph::insertEdge(Vertex v, Vertex w, int o) {
     this->adjacencyMatrix->at(v).at(w) = Edge(
-            &v,
-            &w,
+            new Vertex(v),
+            new Vertex(w),
             o
     );
 }
