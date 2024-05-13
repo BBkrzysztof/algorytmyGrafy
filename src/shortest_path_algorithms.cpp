@@ -50,7 +50,7 @@ void dijkstra(Graph& graph, int sourceIndex, ShortestPathResult& result) {
             Vertex* v = graph.opposite(u, edge);
             int weight = edge.weight;
 
-            if (distance[u] != INF && distance[u] + weight <= distance[*v]) {
+            if (distance[u] != INF && distance[u] + weight < distance[*v]) {
                 distance[*v] = distance[u] + weight;
                 pathSum[*v] = pathSum[u] + weight;
                 predecessor[*v] = u;

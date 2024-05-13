@@ -24,23 +24,23 @@ std::map<
 
 int main() {
 //    graphs["AdjacencyMatrixGraph"] = AdjacencyMatrixGraph::createGraph;
-    graphs["AdjacencyListGraph"] = AdjacencyListGraph::createGraph;
-
-
-    for (const int& vector: vectors) {
-        for (const int& density: densitys) {
-            std::istringstream data(Experiment::generateGraph(vector, density).str());
-            for (const auto& graph: graphs) {
-                std::unique_ptr<Graph> graphRepresentation = graph.second(data);
-                std::stringstream ss;
-                ss << graph.first << "-v-" << vector << "-d-" << density << "-s-" << 1;
-
-                Experiment::perform(
-                        ss.str(),
-                        [&graphRepresentation]() {
-                            ShortestPathResult result;
-                            dijkstra(*graphRepresentation, 1, result);
-                        });
+//    graphs["AdjacencyListGraph"] = AdjacencyListGraph::createGraph;
+//
+//
+//    for (const int& vector: vectors) {
+//        for (const int& density: densitys) {
+//            std::istringstream data(Experiment::generateGraph(vector, density).str());
+//            for (const auto& graph: graphs) {
+//                std::unique_ptr<Graph> graphRepresentation = graph.second(data);
+//                std::stringstream ss;
+//                ss << graph.first << "-v-" << vector << "-d-" << density << "-s-" << 1;
+//
+//                Experiment::perform(
+//                        ss.str(),
+//                        [&graphRepresentation]() {
+//                            ShortestPathResult result;
+//                            dijkstra(*graphRepresentation, 1, result);
+//                        });
 //                for (const int& startIndex: Experiment::generateStartVertexes(vector)) {
 //
 //                    std::stringstream ss;
@@ -53,15 +53,19 @@ int main() {
 //                                dijkstra(*graphRepresentation, startIndex, result);
 //                            });
 //                }
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
-//    std::ifstream inputStream2{"sp_data/graph/graphV10D0.5Negative.txt"};
+    std::ifstream inputStream2{"sp_data/graph/graphV200D0.75.txt"};
 //    std::istringstream is(Experiment::generateGraph(10, 50).str());
-//
-//    std::unique_ptr<Graph> m2 = AdjacencyListGraph::createGraph(is);
-////    m2->dump();
+
+    std::unique_ptr<Graph> m2 = AdjacencyListGraph::createGraph(inputStream2);
+    ShortestPathResult result;
+//    m2->dump();
+    auto d = bellmanFord(*m2, 7, result);
+    m2->dump();
+
 //    ShortestPathResult result;
 //    bellmanFord(*m2, 7, result);
 //    auto d =  m2->incidentEdges(Vertex(0, 0));
