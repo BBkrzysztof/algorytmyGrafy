@@ -50,7 +50,7 @@ public:
 
             while (edgesIndexes.size() < edgesPerRow) {
                 int num = dis(gen);
-                if (edgesIndexes.find(num) == edgesIndexes.end()) { // Jeśli liczba nie została jeszcze wylosowana
+                if (edgesIndexes.find(num) == edgesIndexes.end() && num != vertex) { // Jeśli liczba nie została jeszcze wylosowana
                     edgesIndexes.insert(num);
                 }
             }

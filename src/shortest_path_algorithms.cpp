@@ -11,7 +11,6 @@ void buildResultMap(
 
 void dijkstra(Graph& graph, int sourceIndex, ShortestPathResult& result) {
     auto vertexes = graph.vertices();
-    int vertexesCount = vertexes->size();
 
     // find source vertex (i assume it exists in graph)
     Vertex* sourceVertex = *std::find_if(
@@ -45,8 +44,8 @@ void dijkstra(Graph& graph, int sourceIndex, ShortestPathResult& result) {
     while (!queue.empty()) {
         Vertex u = queue.top();
         queue.pop();
-
-        for (const Edge& edge: graph.incidentEdges(u)) {
+        auto edges = graph.incidentEdges(u);
+        for (const Edge& edge: edges) {
             Vertex* v = graph.opposite(u, edge);
             int weight = edge.weight;
 
@@ -70,21 +69,12 @@ void dijkstra(Graph& graph, int sourceIndex, ShortestPathResult& result) {
         }
         path.push_back(sourceVertex->id);
         std::reverse(path.begin(), path.end());
-
-//        std::cout << "z " << sourceVertex->id << " do " << v->id << "   "
-//                  << pathSum[*v] << " Path: [";
-//        for (int i: path) {
-//            std::cout << " " << i << ", ";
-//        }
-//        std::cout << " ] " << std::endl;
-
         buildResultMap(v->id, pathSum[*v], path, result);
     }
 }
 
 bool bellmanFord(Graph& graph, int sourceIndex, ShortestPathResult& result) {
     auto vertexes = graph.vertices();
-    int vertexesCount = vertexes->size();
     // store distance
     std::map<Vertex, int> distance;
     std::map<Vertex, int> pathSum;
@@ -113,10 +103,11 @@ bool bellmanFord(Graph& graph, int sourceIndex, ShortestPathResult& result) {
 
     for (const Vertex* i: *vertexes) {
         for (const Vertex* u: *vertexes) {
-            for (const Edge& edge: graph.incidentEdges(*u)) {
+            auto edges = graph.incidentEdges(*u);
+            for (const Edge& edge: edges) {
                 Vertex* v = graph.opposite(*u, edge);
                 int weight = edge.weight;
-                if (distance[*u] != INF && distance[*u] + weight < distance[*v]) {
+                if (distance[*u] != INF && distance[*u] + weight <= distance[*v]) {
                     distance[*v] = distance[*u] + weight;
                     pathSum[*v] = pathSum[*u] + weight;
                     predecessor[*v] = *u;
@@ -127,7 +118,8 @@ bool bellmanFord(Graph& graph, int sourceIndex, ShortestPathResult& result) {
 
 
     for (const Vertex* u: *vertexes) {
-        for (const Edge& edge: graph.incidentEdges(*u)) {
+        auto edges = graph.incidentEdges(*u);
+        for (const Edge& edge: edges) {
             Vertex* v = graph.opposite(*u, edge);
             int weight = edge.weight;
             if (distance[*u] != INF && distance[*u] + weight < distance[*v]) {
@@ -146,14 +138,6 @@ bool bellmanFord(Graph& graph, int sourceIndex, ShortestPathResult& result) {
         }
         path.push_back(sourceVertex->id);
         std::reverse(path.begin(), path.end());
-
-        std::cout << "z " << sourceVertex->id << " do " << v->id << "   "
-                  << pathSum[*v] << " Path: [";
-        for (int i: path) {
-            std::cout << " " << i << ", ";
-        }
-        std::cout << " ] " << std::endl;
-
         buildResultMap(v->id, pathSum[*v], path, result);
     }
 
