@@ -11,6 +11,7 @@ void buildResultMap(
 
 void dijkstra(Graph& graph, int sourceIndex, ShortestPathResult& result) {
     auto vertexes = graph.vertices();
+    int vertexesCount = vertexes->size();
 
     // find source vertex (i assume it exists in graph)
     Vertex* sourceVertex = *std::find_if(
@@ -75,6 +76,7 @@ void dijkstra(Graph& graph, int sourceIndex, ShortestPathResult& result) {
 
 bool bellmanFord(Graph& graph, int sourceIndex, ShortestPathResult& result) {
     auto vertexes = graph.vertices();
+    int vertexesCount = vertexes->size();
     // store distance
     std::map<Vertex, int> distance;
     std::map<Vertex, int> pathSum;

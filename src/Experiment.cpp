@@ -79,11 +79,11 @@ public:
 
         auto end = std::chrono::high_resolution_clock::now();
 
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
         std::stringstream msg;
 
-        msg << "Pomiar: " << experimentName << " wykonywal sie przez: " << duration.count() << " ms \n";
+        msg << "Pomiar: " << experimentName << " wykonywal sie przez: " << duration.count() << " qs \n";
 
         std::cout << msg.str() << std::endl;
 

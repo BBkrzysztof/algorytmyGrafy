@@ -14,36 +14,64 @@
 
 #include "../include/graphs/vertex.hpp"
 
-std::vector<int> vectors = {10, 50, 100, 500, 1000};
+std::vector<int> vectors = {10, 50, 100, 250, 500};
 std::vector<int> densitys = {25, 50, 75, 100};
 
-std::map<
-        std::string,
-        std::function<std::unique_ptr<Graph>(std::istream& is)>
-> graphs;
 
-int main() {
-//    graphs["AdjacencyMatrixGraph"] = AdjacencyMatrixGraph::createGraph;
-    graphs["AdjacencyListGraph"] = AdjacencyListGraph::createGraph;
-
+void AdjacencyList(int i = 0) {
     for (const int& vector: vectors) {
         for (const int& density: densitys) {
             std::istringstream data(Experiment::generateGraph(vector, density).str());
-            for (const auto& graph: graphs) {
-                std::unique_ptr<Graph> graphRepresentation = graph.second(data);
+            std::unique_ptr<Graph> graph = AdjacencyListGraph::createGraph(data);
+            std::stringstream s1, s2;
+            s1 << "AdjacencyMatrix-dijkstra-nr-" << i << "-v-" << vector << "-d-" << density << "-s-" << 1;
+            s2 << "AdjacencyMatrix-bellmanFord-nr-" << i << "-v-" << vector << "-d-" << density << "-s-" << 1;
+            Experiment::perform(
+                    s1.str(),
+                    [&graph]() {
+                        ShortestPathResult result;
+                        dijkstra(*graph, 1, result);
+                    });
 
-                std::stringstream s1;
-                s1 << graph.first << "-v-" << vector << "-d-" << density << "-s-" << 1;
-
-                Experiment::perform(
-                        s1.str(),
-                        [&graphRepresentation]() {
-                            ShortestPathResult result;
-                            dijkstra(*graphRepresentation, 1, result);
-                        });
-
-                graphRepresentation.reset();
-            }
+            Experiment::perform(
+                    s2.str(),
+                    [&graph]() {
+                        ShortestPathResult result;
+                        bellmanFord(*graph, 1, result);
+                    });
+            graph.reset();
         }
     }
 }
+
+void AdjacencyMatrix(int i = 0) {
+    for (const int& vector: vectors) {
+        for (const int& density: densitys) {
+            std::istringstream data(Experiment::generateGraph(vector, density).str());
+            std::unique_ptr<Graph> graph = AdjacencyMatrixGraph::createGraph(data);
+            std::stringstream s1, s2;
+            s1 << "AdjacencyMatrix-dijkstra-nr-" << i << "-v-" << vector << "-d-" << density << "-s-" << 1;
+            s2 << "AdjacencyMatrix-bellmanFord-nr-" << i << "-v-" << vector << "-d-" << density << "-s-" << 1;
+            Experiment::perform(
+                    s1.str(),
+                    [&graph]() {
+                        ShortestPathResult result;
+                        dijkstra(*graph, 1, result);
+                    });
+
+            Experiment::perform(
+                    s2.str(),
+                    [&graph]() {
+                        ShortestPathResult result;
+                        bellmanFord(*graph, 1, result);
+                    });
+            graph.reset();
+        }
+    }
+}
+
+int main() {
+    AdjacencyList();
+    AdjacencyMatrix();
+}
+
