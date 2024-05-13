@@ -23,7 +23,7 @@ std::map<
 > graphs;
 
 int main() {
-    graphs["AdjacencyMatrixGraph"] = AdjacencyMatrixGraph::createGraph;
+//    graphs["AdjacencyMatrixGraph"] = AdjacencyMatrixGraph::createGraph;
     graphs["AdjacencyListGraph"] = AdjacencyListGraph::createGraph;
 
     for (const int& vector: vectors) {
@@ -32,41 +32,18 @@ int main() {
             for (const auto& graph: graphs) {
                 std::unique_ptr<Graph> graphRepresentation = graph.second(data);
 
-                for (const int& startIndex: Experiment::generateStartVertexes(vector)) {
+                std::stringstream s1;
+                s1 << graph.first << "-v-" << vector << "-d-" << density << "-s-" << 1;
 
-                    std::stringstream s1;
-                    s1 << graph.first << "-v-" << vector << "-d-" << density << "-s-" << startIndex;
+                Experiment::perform(
+                        s1.str(),
+                        [&graphRepresentation]() {
+                            ShortestPathResult result;
+                            dijkstra(*graphRepresentation, 1, result);
+                        });
 
-                    Experiment::perform(
-                            s1.str(),
-                            [&graphRepresentation, startIndex]() {
-                                ShortestPathResult result;
-                                dijkstra(*graphRepresentation, startIndex, result);
-                            });
-
-                    Experiment::perform(
-                            s1.str(),
-                            [&graphRepresentation, startIndex]() {
-                                ShortestPathResult result;
-                                bellmanFord(*graphRepresentation, startIndex, result);
-                            });
-                }
+                graphRepresentation.reset();
             }
         }
     }
-
-//    std::ifstream inputStream2{"sp_data/graph/graphV200D0.75.txt"};
-//    std::istringstream is(Experiment::generateGraph(10, 50).str());
-
-//    std::unique_ptr<Graph> m2 = AdjacencyListGraph::createGraph(inputStream2);
-//    ShortestPathResult result;
-//    m2->dump();
-//    auto d = bellmanFord(*m2, 7, result);
-//    m2->dump();
-
-//    ShortestPathResult result;
-//    bellmanFord(*m2, 7, result);
-//    auto d =  m2->incidentEdges(Vertex(0, 0));
-//    m2->dump();
-//    std::cout << Experiment::generateGraph(10, 50).str() << std::endl;
 }
